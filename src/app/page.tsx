@@ -1,6 +1,11 @@
 "use client";
 import { MapProvider } from "@/app/providers/map-provider";
 import styled from "styled-components";
+
+import { MapComponent } from "./providers/map";
+import { getBlog } from "../sanity/lib/sanity.query";
+import type { BlogType } from "../types/blogTypes";
+
 import BackgroundImage from "@/assets/Images/BG.png"
 import IconA from "@/assets/Icons/Icon1.png"
 import IconB from "@/assets/Icons/Icon2.png"
@@ -12,15 +17,7 @@ import IconG from "@/assets/Icons/Icon7.png"
 import IconI from "@/assets/Icons/Icon8.png"
 import IconJ from "@/assets/Icons/SearchButton.png"
 import IconRight from "@/assets/Icons/IconRight.png"
-import Image from "@/assets/Images/Image.png"
-import Imagea from "@/assets/Images/Imagea.png"
-import Imageb from "@/assets/Images/Imageb.png"
-import Imagec from "@/assets/Images/Imagec.png"
-import Imaged from "@/assets/Images/Imaged.png"
-import Imagee from "@/assets/Images/imagee.png"
-import Mapimage from "@/assets/Images/Map.png"
 import Match from "@/assets/Icons/Match.png"
-import { MapComponent } from "./providers/map";
 
 
 const IconData = [{
@@ -51,33 +48,10 @@ const IconData = [{
   icon:IconJ.src
 },]
 
-const ImageData = [{
-  url : Image.src,
-  title : "The Adventure Group Whistler",
-  smalltitle : "Whistler, BC"
-},{
-  url : Imagea.src,
-  title : "Apex Adventure Plex",
-  smalltitle : "Richmond, BC"
-},{
-  url : Imageb.src,
-  title : "BC Adventure Company",
-  smalltitle : "North Vancouver, BC"
-},{
-  url : Imagec.src,
-  title : "Canadian Widerness Adventures",
-  smalltitle : "Whistler, BC"
-},{
-  url : Imaged.src,
-  title : "Dragon Boat BC",
-  smalltitle : "Vancouver, BC"
-},{
-  url : Imagee.src,
-  title : "DVC Ventures",
-  smalltitle : "Port Coquitlam, BC"
-},]
 
-export default function Home() {
+
+export default async function Home() {
+  const blogs: BlogType[] = await getBlog();
   return (
     <Container>
       <FirstColumn>
@@ -97,23 +71,23 @@ export default function Home() {
         </ImageWrapper>
       </FirstColumn>
       <SecondColumn>
-        {IconData.map((item,key) => 
+        {IconData.map((icon,key) => 
             (
               <Igroup key={key}>
-                <IconWrapper src={item.icon} noicon={item.title}/>
-                <>{item.title && item.title}</>
+                <IconWrapper src={icon.icon} noicon={icon.title}/>
+                <>{icon.title && icon.title}</>
               </Igroup>
             )
           )}
        </SecondColumn>
       <ThirdColumn>
           <CardGroup>
-            {ImageData.map((item, key) => (
+            {blogs.map((blog, key) => (
               <Card key={key}>
-                <CardImage src={item.url} />
+                <CardImage src={blog.image.image} />
                 <CardFotter>
-                  <CardTitle>{item.title}</CardTitle>
-                  <CardSmalltitle>{item.smalltitle}</CardSmalltitle>
+                  <CardTitle>{blog.title}</CardTitle>
+                  <CardSmalltitle>{blog.place}</CardSmalltitle>
                   <Discover>
                     <Discovertitle>
                       Discover
@@ -204,7 +178,8 @@ const Map = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
+    gap: 30px;
   `;
 
 const Card = styled.div`
