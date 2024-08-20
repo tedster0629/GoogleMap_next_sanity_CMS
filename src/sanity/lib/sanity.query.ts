@@ -25,6 +25,7 @@ export async function getBlog() {
 // }
 
 export async function fetchLocations() {
-  const query = '*[_type == "location"]{title, latitude, longitude, icon}';
+  const query =
+    '*[_type == "location"]{title, latitude, longitude, coordinates ,icon}';
   return await client.fetch(query);
 }

@@ -19,7 +19,6 @@ const Map = ({ locations }: any) => {
 
       locations.forEach((location: any) => {
         const iconUrl = `${BASE_URL}${location.icon.asset._ref.replace('image-', '').replace('-png', '.png')}`;
-
         console.log(iconUrl,"iconUrl")
         new google.maps.Marker({
           position: { lat: location.latitude, lng: location.longitude },
