@@ -43,7 +43,11 @@ export const locationSchema = defineType({
       title: "Longitude",
       type: "number",
     },
-
+    {
+      name: "position",
+      title: "Coordinates",
+      type: "geopoint",
+    },
     {
       name: "icon",
       title: "Icon",
