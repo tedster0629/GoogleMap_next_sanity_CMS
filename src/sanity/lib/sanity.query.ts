@@ -1,4 +1,4 @@
-import { groq } from "next-sanity";
+import { groq, SanityClient } from "next-sanity";
 import { client } from "./client";
 
 export async function getBlog() {
@@ -10,4 +10,21 @@ export async function getBlog() {
       image {alt, "image": asset->url}
     }`
   );
+}
+
+// export async function getLocation() {
+//   return client.fetch(
+//     groq`*[_type == "location"]{
+//       _id,
+//       title,
+//       name,
+//       type,
+//       validation
+//     }`
+//   );
+// }
+
+export async function fetchLocations() {
+  const query = '*[_type == "location"]{title, latitude, longitude, icon}';
+  return await client.fetch(query);
 }
